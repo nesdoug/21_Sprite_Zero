@@ -118,14 +118,14 @@ void draw_sprites(void){
 	oam_clear();
 	set_sprite_zero();
 
-	sprid = 4; // changed, skip the 0th sprite position
+	oam_set(4); // redundant, but just make sure don't overwrite the zero slot
 	
 	// draw 1 metasprite
 	if(direction == LEFT) {
-		sprid = oam_meta_spr(high_byte(BoxGuy1.x), high_byte(BoxGuy1.y), sprid, RoundSprL);
+		oam_meta_spr(high_byte(BoxGuy1.x), high_byte(BoxGuy1.y), RoundSprL);
 	}
 	else{
-		sprid = oam_meta_spr(high_byte(BoxGuy1.x), high_byte(BoxGuy1.y), sprid, RoundSprR);
+		oam_meta_spr(high_byte(BoxGuy1.x), high_byte(BoxGuy1.y), RoundSprR);
 	}
 }
 	
@@ -502,7 +502,8 @@ void check_sfx(void){
 
 
 void set_sprite_zero(void){
-	sprid = 0;
-	//oam_spr(unsigned char x,unsigned char y,unsigned char chrnum,unsigned char attr,unsigned char sprid);
-	oam_spr(0xf0,0x18,0xff,3,sprid);
+	oam_set(0); // double check that this goes in the zero slot
+	
+	//oam_spr(unsigned char x,unsigned char y,unsigned char chrnum,unsigned char attr);
+	oam_spr(0xf0,0x18,0xff,3);
 }
